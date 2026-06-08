@@ -1,0 +1,94 @@
+# Diana skills, expressed in DianaLang.
+#
+# Every skill below is provably injection-safe and explicitly gated — the
+# compiler rejects the file otherwise. Note `largest_files`: the same skill was
+# a real voice->RCE hole in Diana's hand-written Python (an unquoted `du {path}`).
+# Here the {path} interpolation is auto-quoted, so it cannot be an injection.
+
+skill battery {
+    utter "battery", "battery level", "how much charge", "how much power"
+    safe
+    run read "/sys/class/power_supply/BAT0/capacity"
+    reply "You're at {0} percent."
+}
+
+skill set_volume {
+    utter "set volume to <level>", "set the volume to <level>", "volume <level>"
+    arg level : int range 0..150
+    safe
+    run argv ["wpctl", "set-volume", "@DEFAULT_AUDIO_SINK@", "{level}%"]
+    reply "Volume set to {level} percent."
+}
+
+skill mute {
+    utter "mute", "mute the sound", "silence", "unmute"
+    safe
+    run argv ["wpctl", "set-mute", "@DEFAULT_AUDIO_SINK@", "toggle"]
+    reply "Toggled mute."
+}
+
+skill brightness {
+    utter "set brightness to <level>", "brightness <level>", "dim to <level>"
+    arg level : int range 0..100
+    safe
+    run argv ["brightnessctl", "set", "{level}%"]
+    reply "Brightness at {level} percent."
+}
+
+skill open_site {
+    utter "open <site>", "go to <site>", "launch <site>"
+    arg site : word
+    safe
+    run argv ["xdg-open", "https://{site}"]
+    reply "Opening {site}."
+}
+
+skill web_search {
+    utter "search for <query>", "google <query>", "look up <query>"
+    arg query : text max 200
+    safe
+    run argv ["xdg-open", "https://duckduckgo.com/?q={query}"]
+    reply "Searching for {query}."
+}
+
+skill timer {
+    utter "set a timer for <minutes> minutes", "timer <minutes> minutes"
+    arg minutes : int range 1..600
+    safe
+    run argv ["systemd-run", "--user", "--on-active={minutes}m", "notify-send", "Diana", "Timer done"]
+    reply "Timer set for {minutes} minutes."
+}
+
+skill reminder {
+    # free-text note flows into a shell command — auto-quoted, so a note like
+    # "x'; rm -rf ~; echo '" is one inert argument, never executed.
+    utter "remind me to <note>"
+    arg note : text max 200
+    confirm
+    run shell "systemd-run --user --on-active=1m notify-send Diana {note}"
+    reply "I'll remind you to {note}."
+}
+
+skill largest_files {
+    # read-only shell pipe; {path} is quoted. 'safe' is allowed because nothing
+    # here is destructive (du/sort/head). The old Python version was injectable.
+    utter "what are the biggest files in <path>", "largest files in <path>"
+    arg path : text max 300
+    safe
+    run shell "du -ah {path} 2>/dev/null | sort -rh | head -6"
+    reply "Largest items under {path}:\n{0}"
+}
+
+skill reboot {
+    utter "reboot", "restart the computer", "restart the machine"
+    sudo
+    run shell "systemctl reboot"
+    reply "Rebooting now. See you in a moment."
+}
+
+skill greeting {
+    utter "hello", "hi", "hey diana", "good morning", "good evening"
+    safe
+    run reply_only
+    reply "Hey Thanu. What can I get into for you?"
+}
