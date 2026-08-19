@@ -1,3 +1,5 @@
+<img src="docs/banner.svg" alt="DianaLang — safety as grammar" width="880">
+
 # DianaLang
 
 **A tiny declarative language for voice-assistant skills, where safety is a language feature.**
@@ -38,7 +40,7 @@ examples/diana.dl: 44/44 injection probes safe — ✓ INJECTION-PROOF
 ## Install
 
 ```bash
-git clone https://github.com/Thanukamax/dianalang
+git clone https://github.com/everyday-value-agent/dianalang
 cd dianalang
 pip install -e .       # stdlib-only — no dependencies
 ```
@@ -153,3 +155,10 @@ through every shell/argv skill and proves each one survives as a single inert to
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+---
+
+Part of [Project EVA](https://github.com/everyday-value-agent) —
+[Diana](https://github.com/everyday-value-agent/diana) ·
+[brain](https://github.com/everyday-value-agent/brain) ·
+[SAM](https://github.com/everyday-value-agent/sam)

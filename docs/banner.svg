@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="200" viewBox="0 0 880 200">
+<rect width="880" height="200" rx="6" fill="#0E0D1A"/>
+<g transform="translate(56 52) scale(0.48)"><circle cx="100" cy="100" r="64" fill="none" stroke="#6C5CE0" stroke-width="11"/><path d="M136.7 47.6 A64 64 0 0 1 152.4 136.7" fill="none" stroke="#8678F6" stroke-width="11" stroke-linecap="round"/><circle cx="100" cy="100" r="14" fill="#6C5CE0"/></g>
+<text x="180" y="96" font-family="'Space Grotesk','DejaVu Sans',sans-serif" font-size="46" font-weight="700" fill="#E8EBFF" letter-spacing="-1">DianaLang</text>
+<text x="182" y="130" font-family="'DejaVu Sans Mono',monospace" font-size="15" fill="#8A84B8" letter-spacing="1.6">A SKILL LANGUAGE WHERE SAFETY IS GRAMMAR</text>
+</svg>
